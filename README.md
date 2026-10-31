@@ -25,22 +25,34 @@ build one.
 
 No accounts, ads, streaks or notifications. The town is saved on the phone.
 
-## Play it on the iPhone (same Wi-Fi as this Mac)
+## Play it on the iPhone
 
-1. On the Mac, in this folder, run:
+The game is hosted on GitHub Pages: **https://terryjhchen.github.io/skyline-builder/**
 
-   ```bash
-   python3 -m http.server 8000
-   ```
+1. On the iPhone, open that link in **Safari**.
+2. Tap **Share → Add to Home Screen**. It opens full-screen like an app.
+3. Open it once while online. After that it also works offline.
 
-2. Find the Mac's Wi-Fi address (System Settings → Wi-Fi → Details → IP address),
-   e.g. `192.168.1.20`.
-3. On the iPhone, open Safari and go to `http://192.168.1.20:8000`.
-4. Tap **Share → Add to Home Screen**. It now opens full-screen like an app.
+Towns and designs are saved on the phone, in Safari's storage for that web address.
 
-This setup needs the Mac running. For a permanent version that works offline
-anywhere, host the folder on HTTPS (for example GitHub Pages). Note: saves are
-stored per web address, so a town built on one address won't move to another.
+### Publishing changes
+
+GitHub Pages republishes automatically about a minute after a push to `main`:
+
+```bash
+git add -A && git commit -m "Describe the change" && git push
+```
+
+Bump `CACHE` in `sw.js` whenever files are added or renamed. Players get the update
+the next time they open the game online.
+
+### Testing on this Mac
+
+```bash
+python3 -m http.server 8000
+```
+
+Then open http://localhost:8000 (or `http://<Mac's Wi-Fi IP>:8000` on the phone).
 
 ## How to play
 
@@ -83,4 +95,4 @@ Plain HTML, CSS and JavaScript modules with no build step and no dependencies.
 4. **Infrastructure**: power and water, parks that make neighbours happy, buses and trains
 5. **Unlocks and polish**: new parts earned from requests, sounds, a photo mode,
    people walking around
-6. **Permanent hosting**: HTTPS hosting so it works offline anywhere
+1. ✅ **Permanent hosting**: GitHub Pages, works offline on the iPhone
