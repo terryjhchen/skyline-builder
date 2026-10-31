@@ -1,0 +1,13 @@
+{
+  "name": "Skyline Builder",
+  "short_name": "Skyline",
+  "start_url": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#bde0fe",
+  "theme_color": "#bde0fe",
+  "icons": [
+    { "src": "icons/icon-180.png", "sizes": "180x180", "type": "image/png" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}

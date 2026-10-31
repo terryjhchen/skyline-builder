@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Skyline">
+  <meta name="theme-color" content="#bde0fe">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="icons/icon-180.png">
+  <title>Skyline Builder</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <canvas id="city"></canvas>
+
+  <header id="topbar">
+    <button id="city-name" aria-label="Today's jobs"></button>
+    <button id="jobs-btn" aria-label="Today's jobs">📋 <b id="jobs-count"></b></button>
+    <div id="people"><span aria-hidden="true">👥</span> <b id="people-count">0</b></div>
+    <button id="undo" class="icon" aria-label="Undo">↩️</button>
+    <button id="menu" class="icon" aria-label="Menu">⚙️</button>
+  </header>
+
+  <section id="pip" class="hidden">
+    <button id="pip-face" aria-label="Pip">🐤</button>
+    <div id="pip-bubble">
+      <p id="pip-text"></p>
+      <div class="pip-actions">
+        <button id="pip-speak">🔊 Read to me</button>
+        <button id="pip-next" hidden></button>
+      </div>
+    </div>
+  </section>
+
+  <nav id="toolbar">
+    <button data-tool="look" class="selected"><span>👆</span>Look</button>
+    <button data-tool="road"><span>🛣️</span>Road</button>
+    <button data-tool="design"><span>🎨</span>Design</button>
+    <button data-tool="house"><span>🏠</span>House</button>
+    <button data-tool="shop"><span>🏪</span>Shop</button>
+    <button data-tool="apartment"><span>🏢</span>Apartment</button>
+    <button data-tool="tower"><span>🏙️</span>Tower</button>
+    <button data-tool="park"><span>🌳</span>Park</button>
+    <button data-tool="remove"><span>🚜</span>Remove</button>
+  </nav>
+
+  <section id="picker" class="screen">
+    <div class="screen-inner">
+      <p class="pip-big">🐤</p>
+      <h1>Where do you want to build today?</h1>
+      <div id="city-list"></div>
+    </div>
+  </section>
+
+  <section id="studio" class="screen" hidden>
+    <div class="screen-inner">
+      <div class="studio-head">
+        <h1>🎨 Building Studio</h1>
+        <button id="studio-close" aria-label="Close">✕</button>
+      </div>
+
+      <div id="studio-list" hidden>
+        <p class="big-text">Pick a building to build, or make a new one!</p>
+        <p id="design-empty" class="big-text" hidden>You have no buildings yet.</p>
+        <button id="design-new" class="wide-btn primary">➕ Make a new building</button>
+        <div id="design-list"></div>
+      </div>
+
+      <div id="studio-edit" hidden>
+        <div class="studio-preview">
+          <canvas id="studio-canvas"></canvas>
+          <p id="studio-say"></p>
+          <button id="studio-speak" class="speak-btn">🔊 Read to me</button>
+        </div>
+
+        <div class="opt">
+          <h3>Floors</h3>
+          <div class="stepper">
+            <button id="floors-minus" aria-label="Fewer floors">−</button>
+            <b id="floors-val"></b>
+            <button id="floors-plus" aria-label="More floors">+</button>
+          </div>
+        </div>
+        <div class="opt"><h3>Shape</h3><div class="chips" id="opt-shape"></div></div>
+        <div class="opt"><h3>Color</h3><div class="chips" id="opt-color"></div></div>
+        <div class="opt"><h3>Windows</h3><div class="chips" id="opt-windows"></div></div>
+        <div class="opt"><h3>Roof</h3><div class="chips" id="opt-roof"></div></div>
+        <div class="opt">
+          <h3>Name</h3>
+          <input id="design-name" maxlength="24" placeholder="Name your building" autocomplete="off" autocapitalize="words">
+        </div>
+
+        <button id="design-save" class="wide-btn primary">Save and build it! 🏗️</button>
+        <button id="design-back" class="wide-btn">Back</button>
+        <button id="design-delete" class="wide-btn danger">Delete this building</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="sleep" class="screen" hidden>
+    <div class="screen-inner center">
+      <p class="pip-big">🌙</p>
+      <h1 id="sleep-title"></h1>
+      <p class="big-text">Your city is saved. Come back tomorrow for new jobs!</p>
+      <button id="sleep-pick" class="small-btn">Pick a city</button>
+    </div>
+  </section>
+
+  <dialog id="jobs-dialog">
+    <h2 id="jobs-title"></h2>
+    <p id="jobs-intro" class="big-text"></p>
+    <ol id="jobs-list"></ol>
+    <div class="dialog-actions">
+      <button id="jobs-speak">🔊 Read to me</button>
+      <button id="jobs-go" class="primary">Let's go! 🚀</button>
+    </div>
+  </dialog>
+
+  <dialog id="done-dialog">
+    <p class="pip-big">🎉</p>
+    <h2>All jobs done!</h2>
+    <p id="done-text" class="big-text"></p>
+    <p class="big-text">See you tomorrow! 🌙</p>
+    <button id="done-speak">🔊 Read to me</button>
+    <button id="done-bye" class="primary">I'm done for today</button>
+    <button id="done-keep">Keep building</button>
+  </dialog>
+
+  <dialog id="menu-dialog">
+    <h2>Settings</h2>
+    <label class="row"><input type="checkbox" id="auto-read"> Pip reads every message out loud</label>
+    <button id="pick-city">Pick a different city</button>
+    <button id="new-town" class="danger">Start this city over</button>
+    <button id="menu-close">Close</button>
+  </dialog>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
